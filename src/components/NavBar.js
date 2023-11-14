@@ -1,13 +1,26 @@
-import React from 'react';
-import '../Navbar.css';
+import React, { useState } from 'react';
+import '../components/Navbar.css';
+
 const NavBar = () => {
+    const [mostrarLista, setMostrarLista] = useState(false);
+
+    const toggleLista = () => {
+        setMostrarLista(!mostrarLista);
+    };
+
     return (
         <nav>
-            <div className="logo">Logo</div>
-            <div className="tools">Herramientas</div>
+            <img src="/img/LogoG9.png" alt="Logo" className="logo" />
             <div className="menu">
                 <ul>
-                    <li>Juegos</li>
+                    <li onClick={toggleLista}>Juegos</li>
+                    {mostrarLista && (
+                        <ul className="submenu">
+                            <li>spaceWaR</li>
+                            <li>DUDE</li>
+                        </ul>
+                    )}
+                    <li>Herramientas</li>
                     <li>Colaboradores</li>
                 </ul>
             </div>
