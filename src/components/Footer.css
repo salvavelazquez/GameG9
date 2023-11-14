@@ -1,6 +1,6 @@
 footer {
-    background-color: #333;
-    color: white;
+    background-color: #272727;
+    color: #0cc6ff;
     padding: 10px;
   }
   
@@ -15,3 +15,7 @@ footer {
     cursor: pointer;
   }
   
+  .links{
+    text-decoration: none;
+    color: #0cc6ff;
+  }
