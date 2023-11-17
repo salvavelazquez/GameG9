@@ -21,6 +21,10 @@ function Dude (){
             type: Phaser.AUTO,
             width: 800,
             height: 600,
+            scale: {
+                mode: Phaser.Scale.FIT, // Escala para ajustar el juego a la ventana
+                autoCenter: Phaser.Scale.CENTER_BOTH // Centra automáticamente el juego en la ventana
+            },
             physics:{
                 default: 'arcade',
                 arcade: {
