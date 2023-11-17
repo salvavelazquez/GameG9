@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../components/Navbar.css';
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
     const [mostrarLista, setMostrarLista] = useState(false);
@@ -10,7 +11,10 @@ const NavBar = () => {
 
     return (
         <nav>
-            <img src="/img/LogoG9.png" alt="Logo" className="logo" />
+            <Link to="/">
+                <img src="/img/LogoG9.png" alt="Logo" className="logo" />
+            </Link>
+            
             <div className="menu">
                 <ul>
                     <li onClick={toggleLista}>Juegos</li>
