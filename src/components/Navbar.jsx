@@ -48,7 +48,7 @@ function Navbar() {
                     <Link onClick={(e) => { e.preventDefault(); handleDropdownClick(); }} to="/">VideoGames▾</Link>
                     {dropdownVisible && (
                         <DropdownContainer>
-                            <DropdownLink href="/">Dude</DropdownLink>
+                            <DropdownLink href="/Dude">Dude</DropdownLink>
                             <DropdownLink href="/SpaceWar">Space War</DropdownLink>
                             <DropdownLink href="/">Zoolopolis</DropdownLink>
                         </DropdownContainer>
