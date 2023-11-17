@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 
 class winner  extends Phaser.Scene{
-   
+
     constructor(){
         super("winner");
         this.scoreText = "" + this.score;
@@ -37,5 +37,5 @@ class winner  extends Phaser.Scene{
     }
     
   }
-   
+
 export default winner;  
