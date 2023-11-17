@@ -1,10 +1,10 @@
 import Phaser from "phaser";
-import Menu from "./components/menu.js"
-import Escena1 from "./components/Escena1.js"
-import Escena2 from "./components/Escena2.js"
-import Escena3 from "./components/Escena3.js"
-import GameO from "./components/GameO.js"
-import winner from "./components/winner.js"
+import Menu from "./components/menu.js";
+import Escena1 from "./components/Escena1.js";
+import Escena2 from "./components/Escena2.js";
+import Escena3 from "./components/Escena3.js";
+import GameO from "./components/GameO.js";
+import winner from "./components/winner.js";
 import { useEffect, useState } from "react";
 
 
@@ -28,7 +28,7 @@ function Dude (){
                     debug: false
                 }
             },
-            
+            scene:iniciarEscena()
         };
         let game = new Phaser.Game(config);
 
@@ -48,18 +48,3 @@ export default Dude;
 
 
 
-
-let config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    physics:{
-        default: 'arcade',
-        arcade: {
-            gravity: {y:300},
-            debug: false
-        }
-    },
-    
-};
-let game = new Phaser.Game(config);
