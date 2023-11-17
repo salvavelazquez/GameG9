@@ -1,5 +1,3 @@
-import Phaser from "phaser";
-
 class Escena2 extends Phaser.Scene{
 
   constructor(){
@@ -24,7 +22,7 @@ class Escena2 extends Phaser.Scene{
     this.load.image('star', '/img/DudeImagenes/star.png');
     this.load.image('bomb', '/img/DudeImagenes/bomb.png');
     this.load.image('trofeo', '/img/DudeImagenes/trofeo.png');
-    this.load.spritesheet('dude', '/img/DudeImagenes/dude.png', {frameWidth:32, frameHeight:48});
+    this.load.spritesheet('dude','/img/DudeImagenes/dude.png', {frameWidth:32, frameHeight:48});
   }
 
   create(){

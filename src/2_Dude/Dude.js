@@ -28,7 +28,7 @@ function Dude (){
                     debug: false
                 }
             },
-            
+            scene:iniciarEscena()
         };
         let game = new Phaser.Game(config);
 
