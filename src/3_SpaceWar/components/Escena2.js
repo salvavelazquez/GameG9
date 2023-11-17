@@ -6,9 +6,12 @@ class Escena2 extends Phaser.Scene {
     this.vidasText = "";
     this.vidas = 0;
     this.bonus = false;
-    this.cont=0;
     this.bosstate = false;
     this.booslife = 50;
+  }
+
+  init(data){
+    this.cont = data.cont;
   }
 
   preload() {
@@ -25,7 +28,6 @@ class Escena2 extends Phaser.Scene {
     this.load.image('bonus', '/img/SpaceWarImages/bonus.png');
     this.load.image('heart', '/img/SpaceWarImages/heart.png');
     //archivos de sonido
-    this.load.audio('backgroundMusic', '/sounds/SpaceWarSounds/musicafondo.mp3');
     this.load.audio('shootSound', '/sounds/SpaceWarSounds/shoot.mp3');
     this.load.audio('collisionSound', '/sounds/SpaceWarSounds/colision.mp3');
     this.load.audio('explosionSound', '/sounds/SpaceWarSounds/explosion.mp3');
@@ -33,32 +35,23 @@ class Escena2 extends Phaser.Scene {
   }
 
   create() {
-    this.vidas = 5;
+    this.vidas = 7;
     this.bonus = false;
-    this.cont = 0;
     this.bosstate = false;
     this.booslife = 50;
-    // Detener el sonido antes de volver al menú
-    if (this.backgroundMusic) {
-      this.backgroundMusic.stop();
-    }
 
     //fondo en Movimiento 
     this.fondo = this.add.tileSprite(0, 0, 800, 600, 'fondo');
     this.fondo.setOrigin(0, 0);
 
-    this.add.image(60, 30, 'heart').setScale(0.4);
-    this.vidasText = this.add.text(16, 16, '5', { fontSize: '32px', fill: '#FFFF' });
-    this.enemyText = this.add.text(600, 16, 'Aniquilación: 0', { fontSize: '20px', fill: '#FFFF' });
+    this.add.image(65, 30, 'heart').setScale(0.4);
+    this.vidasText = this.add.text(16, 16, '7', { fontSize: '32px', fill: '#FFFF' });
+    this.enemyText = this.add.text(600, 16, 'Aniquilación: '+ this.cont, { fontSize: '20px', fill: '#FFFF' });
     
     // Crea una instancia de Audio para cada sonido
-    this.backgroundMusic = this.sound.add('backgroundMusic', { loop: true, volume: 0.5 });
     this.shootSound = this.sound.add('shootSound', { volume: 0.5 });
     this.collisionSound = this.sound.add('collisionSound', { volume: 0.3 });
     this.explosionSound = this.sound.add('explosionSound', { volume: 0.5 });
-
-    // Inicia la música de fondo
-    this.backgroundMusic.play();
     
     //Se  agrega el bonus
     this.stars = this.physics.add.image(700, 150, 'bonus').setScale(0.1);
@@ -298,10 +291,6 @@ class Escena2 extends Phaser.Scene {
         this.enemyText.setText('Aniquilación: '+this.cont);
       }
     
-    //if (this.cont==5 && !this.bosstate){
-      //this.finalBoss();
-      //this.bosstate = true;
-    //}
   }
 
   crearMeteoritos() {
@@ -324,6 +313,7 @@ class Escena2 extends Phaser.Scene {
   
     if (this.vidas <= 0) {
       player.setTint(0xff0000);
+      this.fondo.destroy();
       this.scene.stop('Escena2');
       this.scene.start('GameOver',{cont:this.cont});
     }
@@ -341,6 +331,7 @@ class Escena2 extends Phaser.Scene {
         delay: 500,
         callbackScope: this,
         callback: function () {
+          this.scene.stop('Escena2');
           this.scene.start('GameOver',{cont:this.cont});
         }
       }
