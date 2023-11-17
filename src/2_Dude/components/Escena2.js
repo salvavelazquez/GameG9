@@ -1,3 +1,6 @@
+import Phaser from "phaser";
+
+
 class Escena2 extends Phaser.Scene{
 
   constructor(){
@@ -17,7 +20,7 @@ class Escena2 extends Phaser.Scene{
   preload(){
     
     this.load.image('sky2','/img/DudeImagenes/fondo1.jpeg');
-    this.load.image('ground', '/img/DudeImagenes/platform.png');
+    this.load.image('ground','/img/DudeImagenes/platf.png');
     this.load.image('lava', '/img/DudeImagenes/lavaa.png');
     this.load.image('star', '/img/DudeImagenes/star.png');
     this.load.image('bomb', '/img/DudeImagenes/bomb.png');
@@ -45,7 +48,7 @@ class Escena2 extends Phaser.Scene{
         repeat: 5
     });
 
-    let p1 = this.platformGroup.create(50, 50, 'ground');
+    let p1 = this.platformGroup.create(50, 60, 'ground');
     let p2 = this.platformGroup.create(480, -140, 'ground');
     let p3 = this.platformGroup.create(750, 45, 'ground');
     
@@ -56,7 +59,7 @@ class Escena2 extends Phaser.Scene{
     this.physics.world.setBounds(0, 0, 800, 600);
 
     //Jugador
-    this.player = this.physics.add.sprite(100, -100, 'dude');
+    this.player = this.physics.add.sprite(100, -50, 'dude');
    
     //physics del player
     this.player.setBounce(0.2); //rebote entre 0 o 1
