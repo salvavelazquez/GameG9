@@ -39,7 +39,7 @@ function Navbar() {
                     <Link onClick={(e) => { e.preventDefault(); handleDropdownClick2(); }} to="/">Tools▾</Link>
                     {dropdownVisible2 && (
                         <DropdownContainer2>
-                            <DropdownLink href="/">Price Comparison</DropdownLink>
+                            <DropdownLink href="/PriceComparison">PriceComparison</DropdownLink>
                             <DropdownLink href="/">Task List</DropdownLink>
                             
                         </DropdownContainer2>
