@@ -87,11 +87,11 @@ function PriceComparison() {
                     <option value="Vea">Vea</option>
                     <option value="Chango Mas">Chango Más</option>
                 </select>
-                
+                <div className="container mt-2" >
                 <button type="button" className="btn btn-primary me-2 mt-2" onClick={guardarProducto}>Guardar Producto</button>
                 <button type="button" className="btn btn-primary me-2 mt-2" onClick={listarProductos}>Listar Productos</button>
                 <button type="button" className="btn btn-primary me-2 mt-2" onClick={listarProductosBaratos}>Productos Más Baratos</button>
-
+                </div>
                 <div id="mensajes">
                     <br />
                     <h2 className="text-secondary">Listado de Productos</h2>
