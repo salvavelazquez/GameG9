@@ -5,10 +5,7 @@ function PriceComparison() {
     const [products, setProducts] = useState([]);
 
     const backgroundStyle = {
-        backgroundImage: 'url("https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.pngtree.com%2Ffreebackground%2Findoor-environment-of-vegetable-market-and-aisle-of-fruit-and-vegetable-stalls_1714849.html&psig=AOvVaw1gfZ99lOGy5PlZXAW_mS70&ust=1700359672834000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKCXocS7zIIDFQAAAAAdAAAAABAJ")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+    
         minHeight: '100vh', // Esto asegura que la imagen ocupe al menos el 100% del alto de la pantalla
         padding: '20px', // Ajusta según sea necesario
     };
@@ -95,7 +92,7 @@ function PriceComparison() {
                     </div>
                     <div id="mensajes">
                         <br />
-                        <h2 className="text-secondary">Listado de Productos</h2>
+                        <h2 className="text-secondary" >Listado de Productos</h2>
                         <table id="tablaProductos" className="table">
                             <thead>
                                 <tr>
