@@ -10,7 +10,7 @@ const Footer = () => {
                 <li>Enlace 1</li>
                 <li>Enlace 2</li>
                 <li><Link to='/spaceWar' className='links'> SpaceWar </Link></li>
-                <li>Enlace 4</li>
+                <li><Link to='/Zoolopolis' className='links'> Zoolopolis </Link></li>
                 <li>Enlace 5</li>
             </ul>
         </footer>
