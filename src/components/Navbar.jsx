@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import BurguerButton from "./BurguerButton";
+//import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+
 import { Link } from 'react-router-dom';
 
 function Navbar() {
@@ -21,15 +23,17 @@ function Navbar() {
 
     const handleDropdownClick2 = () => {
         setDropdownVisible(false);
-        setDropdownVisible2(!dropdownVisible2); 
+        setDropdownVisible2(!dropdownVisible2);
     };
 
+    /********** MODE EXAMPLE ***************** */
+    /****************************** */
 
     return (
         <>
             <NavContainer>
 
-                <Link to="/">
+                <Link to="/" className="logolink">
                     <img src="/img/LogoG9.png" alt="Logo" className="logo" />
                 </Link>
 
@@ -39,9 +43,9 @@ function Navbar() {
                     <Link onClick={(e) => { e.preventDefault(); handleDropdownClick2(); }} to="/">Tools▾</Link>
                     {dropdownVisible2 && (
                         <DropdownContainer2>
-                            <DropdownLink href="/PriceComparison">PriceComparison</DropdownLink>
+                            <DropdownLink href="/PriceComparison">Price Comparison</DropdownLink>
                             <DropdownLink href="/">Task List</DropdownLink>
-                            
+
                         </DropdownContainer2>
                     )}
 
@@ -50,12 +54,12 @@ function Navbar() {
                         <DropdownContainer>
                             <DropdownLink href="/Dude">Dude</DropdownLink>
                             <DropdownLink href="/SpaceWar">Space War</DropdownLink>
-                            <DropdownLink href="/">Zoolopolis</DropdownLink>
+                            <DropdownLink href="/Zoolopolis">Zoolopolis</DropdownLink>
                         </DropdownContainer>
                     )}
 
 
-                    <Link onClick={handleClick} to="/">About Us</Link>
+                    <Link onClick={handleClick} to="/developers">About Us</Link>
 
                 </div>
 
@@ -79,30 +83,46 @@ export default Navbar;
 const NavContainer = styled.nav`
 .logo {
     z-index: 3;
-    width: 7.5em;
-    height: 5em;
+    width: 13.5em;
+    height: 4em;
     padding-left: 1em;
-    
-    //font-size: 1.5em;
+
     @media(max-width: 768px){
         width: 110px;
         height: 70px;
     }
 }
 
+.logolink{
+    &:hover {
+        background-color: #0b0912;
+    }
+}
+
 padding: .4rem;
-background-color: #333;
+background-color: #0b0912;
 display: flex;
 align-items: center;
 justify-content: space-between;
+
 a {
     color: white;
     text-decoration: none;
     margin-right: 1rem;
+    
+    padding: 10px 15px;
+
+    &:hover {
+        background-color: #14b9c5;
+    //background-color: #555; /* Cambia el color de fondo al posicionarse el mouse sobre el enlace */
+    //border-radius: 5px; /* Agrega bordes redondeados */
+    //border: 1px solid white; /* Agrega un borde blanco */
+  }
+    
 }
 .links{
-    
-    //border: 2px solid red;
+    transform: translateY(-50%) skewX(-17deg);
+    //transition: .3s linear;
     position: absolute;
     top: -700px;
     left: -2000px;
@@ -111,18 +131,26 @@ a {
     margin-right: auto;
     text-align: center;
     transition: all .5s ease;
+
     a{
+        
         color: white;
         font-size: 2rem;
         display: block;
+        //background-color: #0cc6ff;
+        
     }
     @media(min-width: 992px){
         position: initial;
         margin: 0;
         a{
             font-size: 1rem;
-            color: #0cc6ff;
+            color: #ffffff;
             display: inline;
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: 700;
         }
         display: block;
     }
@@ -144,7 +172,10 @@ a {
         font-size: 2rem;
         margin-top: 1rem;
         color: #0cc6ff;
+        
     }
+
+    
 }
 
 .burguer{
@@ -177,9 +208,9 @@ const BgDiv = styled.div`
 
 const DropdownContainer = styled.div`
     position: absolute;
-
-    //top: 13%;
-    left: 84%;
+    transform: translateY(50%) skewX(17deg);
+    top: -20%;
+    left: 49%;
     background-color: #333;
     //padding: 1rem;
     display: flex;
@@ -191,19 +222,19 @@ const DropdownContainer = styled.div`
         margin-bottom: 0.5rem;
         font-size: 1.2rem;
     }
-    border: 2px solid gray;
-    border-radius: 10px; 
+    //border: 2px solid gray;
+    //border-radius: 10px; 
     @media(max-width: 1115px){
-        left: 81%;
+        left: 49%;
         //border: 2px solid red;
     }
 `;
 
 const DropdownContainer2 = styled.div`
     position: absolute;
-
-    //top: 13%;
-    left: 76%;
+    transform: translateY(50%) skewX(17deg);
+    top: 100%;
+    left: 24%;
     background-color: #333;
     //padding: 1rem;
     display: flex;
@@ -215,10 +246,10 @@ const DropdownContainer2 = styled.div`
         margin-bottom: 0.5rem;
         font-size: 1.2rem;
     }
-    border: 2px solid gray;
-    border-radius: 10px; 
+    //border: 2px solid gray;
+    //border-radius: 10px; 
     @media(max-width: 1115px){
-        left: 71%;
+        left: 24%;
         //border: 2px solid red;
     }
 `;
