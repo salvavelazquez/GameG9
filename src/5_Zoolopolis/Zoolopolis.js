@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Juego from './components/Juego';
-//import '../Navegacion.css';
-//import './Zoolopolis.css';
+
+
+import '../5_Zoolopolis/Zoolopolis.css';
 import Felicitaciones from './components/Felicitaciones.js';
 
 function Zoolopolis() {

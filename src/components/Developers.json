@@ -1,0 +1,33 @@
+[
+    {
+        "id": 0,
+        "name": "Enzo Javier Flores",
+        "repository": "",
+        "hobby": "videogames"
+        
+    },
+    {
+        "id": 1,
+        "name": "Víctor Hugo Castro Ramírez",
+        "repository": "",
+        "hobby": "videogames"
+    },
+    {
+        "id": 2,
+        "name": "Salvador Augusto Velazquez",
+        "repository": "https://github.com/salvavelazquez",
+        "hobby": "videogames, swimming, trekking"
+    },
+    {
+        "id": 3,
+        "name": " Maximiliano Ezequiel Condorí Perez",
+        "repository": "",
+        "hobby": "videogames"
+    },
+    {
+        "id": 4,
+        "name": "Luca Joaquin Ramos",
+        "repository": "",
+        "hobby": "videogames"
+    }
+]

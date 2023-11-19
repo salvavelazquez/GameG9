@@ -1,0 +1,16 @@
+#gg{
+        background-color: brown;
+        
+        top: -50%;
+}
+
+#ff{
+    
+        background-image: 'url("https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.pngtree.com%2Ffreebackground%2Findoor-environment-of-vegetable-market-and-aisle-of-fruit-and-vegetable-stalls_1714849.html&psig=AOvVaw1gfZ99lOGy5PlZXAW_mS70&ust=1700359672834000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKCXocS7zIIDFQAAAAAdAAAAABAJ")';
+        background-size: 'cover';
+        background-position: 'center';
+        background-repeat: 'no-repeat';
+       
+        padding: '20px';
+        background-color: aqua;
+}
