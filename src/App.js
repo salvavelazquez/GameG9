@@ -5,6 +5,7 @@ import Dude from './2_Dude/Dude';
 import PriceComparison from "./1_PriceComparison/PriceComparison";
 import Navbar from "./components/Navbar";
 import Zoolopolis from "./5_Zoolopolis/Zoolopolis"; 
+import TaskList from "./4_TaskList/TaskList";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
                 <Route path="Zoolopolis" element={<Zoolopolis />} /> 
                 <Route path="spaceWar" element={<SpaceWar />} />
                 <Route path="Pricecomparison" element={<PriceComparison />} />
+                <Route path="Tasklist" element={<TaskList/>} />
             </Routes>
         </Router>
     )
