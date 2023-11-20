@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../1_PriceComparison/components/estilo.css';
+import Footer from '../components/Footer';
 
 function PriceComparison() {
     const [products, setProducts] = useState([]);
@@ -71,6 +72,7 @@ function PriceComparison() {
     };
 
     return (
+        <div>
         <body id="gg">
             <div id="ff" className="container mt-5" style={backgroundStyle}>
                 <form id="formProducto" className="mb-5">
@@ -121,8 +123,10 @@ function PriceComparison() {
 
                 </form>
             </div>
+            
         </body>
-
+        <Footer />
+        </div>
     );
 }
 export default PriceComparison;
