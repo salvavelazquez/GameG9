@@ -13,6 +13,9 @@ main{
     /*border: 1px solid white;*/
 }
 .toolsSection {
+    
+    z-index: 2;
+    position: relative;
     width: 45%; /* Puedes ajustar el ancho de cada sección */
    /* border: 1px solid white;*/
 }
@@ -55,6 +58,7 @@ main{
         width: 100%;
     }
      .toolsSection {
+        
         width: 100%; /* Ambas secciones ocupan todo el ancho en pantallas más pequeñas */
     }
 }

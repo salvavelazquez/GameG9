@@ -104,6 +104,9 @@ background-color: #0b0912;
 display: flex;
 align-items: center;
 justify-content: space-between;
+position: relative; /* Asegura que el contenedor sea un contenedor posicionado */
+    z-index: 4;
+
 
 a {
     color: white;
@@ -164,7 +167,7 @@ a {
     position: absolute;
     margin-left: auto;
     margin-right: auto;
-    top: 30%;
+    top: 230%;
     left: 0;
     right: 0;
     text-align: center;
@@ -193,14 +196,14 @@ const BgDiv = styled.div`
     left: -1000px;
     width: 100%;
     height: 100%;
-    z-index: 1;
+    z-index: 2;
     transition: all .6s ease ;
     &.active{
         border-radius: 0 0 80% 0;
         top: 0;
         left: 0;
         width: 100%;
-        height: 100%;
+        height: 650%;
         
     }
     
@@ -213,9 +216,9 @@ const DropdownContainer = styled.div`
     left: 49%;
     background-color: #333;
     //padding: 1rem;
+    z-index: 3;
     display: flex;
     flex-direction: column;
-    z-index: 2;
     a {
         color: #0cc6ff;
         text-decoration: none;
@@ -239,7 +242,7 @@ const DropdownContainer2 = styled.div`
     //padding: 1rem;
     display: flex;
     flex-direction: column;
-    z-index: 2;
+    z-index: 3;
     a {
         color: #0cc6ff;
         text-decoration: none;
@@ -256,6 +259,7 @@ const DropdownContainer2 = styled.div`
 
 const DropdownLink = styled.a`
     //color: white;
+    
     text-decoration: none;
     margin-bottom: 0.5rem;
     font-size: 1.2rem;
