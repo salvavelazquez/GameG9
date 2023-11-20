@@ -6,6 +6,7 @@ import PriceComparison from "./1_PriceComparison/PriceComparison";
 import Navbar from "./components/Navbar";
 import Zoolopolis from "./5_Zoolopolis/Zoolopolis"; 
 import TaskList from "./4_TaskList/TaskList";
+import Developer from "./components/Developer";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
                 <Route path="spaceWar" element={<SpaceWar />} />
                 <Route path="Pricecomparison" element={<PriceComparison />} />
                 <Route path="Tasklist" element={<TaskList/>} />
+                <Route path="Developer" element={<Developer/>} />
             </Routes>
         </Router>
     )

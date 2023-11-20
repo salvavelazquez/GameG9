@@ -59,7 +59,7 @@ function Navbar() {
                     )}
 
 
-                    <Link onClick={handleClick} to="/developers">About Us</Link>
+                    <a onClick={handleClick} href="/Developer">About Us</a>
 
                 </div>
 
