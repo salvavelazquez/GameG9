@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import BurguerButton from "./BurguerButton";
-//import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import { Link } from 'react-router-dom';
 
@@ -26,8 +25,6 @@ function Navbar() {
         setDropdownVisible2(!dropdownVisible2);
     };
 
-    /********** MODE EXAMPLE ***************** */
-    /****************************** */
 
     return (
         <>
@@ -117,15 +114,11 @@ a {
 
     &:hover {
         background-color: #14b9c5;
-    //background-color: #555; /* Cambia el color de fondo al posicionarse el mouse sobre el enlace */
-    //border-radius: 5px; /* Agrega bordes redondeados */
-    //border: 1px solid white; /* Agrega un borde blanco */
   }
     
 }
 .links{
     transform: translateY(-50%) skewX(-17deg);
-    //transition: .3s linear;
     position: absolute;
     top: -700px;
     left: -2000px;
@@ -140,7 +133,6 @@ a {
         color: white;
         font-size: 2rem;
         display: block;
-        //background-color: #0cc6ff;
         
     }
     @media(min-width: 992px){
@@ -215,7 +207,6 @@ const DropdownContainer = styled.div`
     top: -20%;
     left: 49%;
     background-color: #333;
-    //padding: 1rem;
     z-index: 3;
     display: flex;
     flex-direction: column;
@@ -225,11 +216,10 @@ const DropdownContainer = styled.div`
         margin-bottom: 0.5rem;
         font-size: 1.2rem;
     }
-    //border: 2px solid gray;
-    //border-radius: 10px; 
+    
     @media(max-width: 1115px){
-        left: 49%;
-        //border: 2px solid red;
+        left: 44%;
+        top: 35%;
     }
 `;
 
@@ -239,7 +229,6 @@ const DropdownContainer2 = styled.div`
     top: 100%;
     left: 24%;
     background-color: #333;
-    //padding: 1rem;
     display: flex;
     flex-direction: column;
     z-index: 3;
@@ -249,16 +238,14 @@ const DropdownContainer2 = styled.div`
         margin-bottom: 0.5rem;
         font-size: 1.2rem;
     }
-    //border: 2px solid gray;
-    //border-radius: 10px; 
+    
     @media(max-width: 1115px){
-        left: 24%;
-        //border: 2px solid red;
+        left: 36%;
+        top: 23%;
     }
 `;
 
 const DropdownLink = styled.a`
-    //color: white;
     
     text-decoration: none;
     margin-bottom: 0.5rem;
@@ -267,7 +254,6 @@ const DropdownLink = styled.a`
     padding-top: 0%;
     padding-bottom: 0%;
     
-    /*border: 2px solid black;*/
     
 
     &:hover {
