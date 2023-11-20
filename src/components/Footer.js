@@ -6,13 +6,9 @@ import { Link } from 'react-router-dom';
 const Footer = () => {
     return (
         <footer>
-            <ul>
-                <li>Enlace 1</li>
-                <li>Enlace 2</li>
-                <li><Link to='/spaceWar' className='links'> SpaceWar </Link></li>
-                <li><Link to='/Zoolopolis' className='links'> Zoolopolis </Link></li>
-                <li>Enlace 5</li>
-            </ul>
+            <div className="footer-content">
+                <p style={{ fontSize: '18px' }}>&copy; 2023 TPFGrupo 9.</p>
+            </div>
         </footer>
     );
 };

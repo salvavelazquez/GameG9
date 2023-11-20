@@ -1,21 +1,14 @@
 footer {
-    background-color: #272727;
-    color: #0cc6ff;
-    padding: 10px;
-  }
+  background-color: #0b0912; /* Color de fondo del footer */
+  color: #0cc6ff; /* Color del texto en el footer */
+  padding: 20px; /* Espaciado interno del footer */
+  text-align: center; /* Alineación del texto en el centro */
   
-  footer ul {
-    list-style-type: none;
-    display: flex;
-    justify-content: center;
-  }
+}
   
-  footer li {
-    margin: 0 10px;
-    cursor: pointer;
-  }
+.footer-content {
   
-  .links{
-    text-decoration: none;
-    color: #0cc6ff;
-  }
+  max-width: 1200px; /* Ancho máximo del contenido del footer */
+  margin: 0 auto; /* Centra el contenido del footer */
+ 
+}
