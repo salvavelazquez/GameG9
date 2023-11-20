@@ -15,13 +15,9 @@ function Start() {
 
     const carouselSettings = {
         indicators: true,
-        /*interval: null,*/
         style: { maxWidth: '60%', marginLeft: 'auto', marginRight: 'auto', marginTop: '14px' },
         slidestoshow: 3,
         slidestoscroll: 1,
-        /*centermode: 'true',
-        centerpadding: '0',*/
-
     };
 
 
