@@ -44,7 +44,7 @@ function Navbar() {
                     {dropdownVisible2 && (
                         <DropdownContainer2>
                             <DropdownLink href="/PriceComparison">Price Comparison</DropdownLink>
-                            <DropdownLink href="/">Task List</DropdownLink>
+                            <DropdownLink href="/TaskList">Task List</DropdownLink>
 
                         </DropdownContainer2>
                     )}
