@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import '../Juego.css';
 import data from './data.json';
+import BackgroundSound from './BackgroundSound.js';
+import correctSound from './correct.mp3';
+import incorrectSound from './incorrect.mp3';
 
 function Juego({ nombreJugador, puntaje, setPuntaje, alTerminar, rondaActual, setRondaActual, rondaJuego }) {
+    const [correctSoundAudio] = useState(new Audio(correctSound));
+    const [incorrectSoundAudio] = useState(new Audio(incorrectSound));
     const [animalObjetivo, setAnimalObjetivo] = useState('');
     const [opciones, setOpciones] = useState([]);
     const [esCorrecto, setEsCorrecto] = useState(null);
@@ -45,8 +50,10 @@ function Juego({ nombreJugador, puntaje, setPuntaje, alTerminar, rondaActual, se
         if (animalSeleccionado === animalObjetivo.id) {
             setEsCorrecto(true);
             setPuntaje(puntaje + 1);
+            correctSoundAudio.play();
         } else {
             setEsCorrecto(false);
+            incorrectSoundAudio.play();
         }
         setPuedeHacerClic(false);
     };
@@ -87,6 +94,7 @@ function Juego({ nombreJugador, puntaje, setPuntaje, alTerminar, rondaActual, se
 
     return (
         <div className="centrar-contenido2">
+            <BackgroundSound />
             <h1>{nombreJugador}, ¿What is this animal?</h1>
             <p>Current round: {rondaActual}</p>
             <div className="imagen-y-botones">
@@ -110,7 +118,7 @@ function Juego({ nombreJugador, puntaje, setPuntaje, alTerminar, rondaActual, se
                         onClick={eliminarRespuestaIncorrecta}
                         disabled={respuestasIncorrectas == 0 || esCorrecto !== null}
                     >
-                        Eliminar respuesta incorrecta
+                        wilcard :D
                     </button>
                 </div>
             </div>
