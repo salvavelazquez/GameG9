@@ -2,16 +2,20 @@ import React, { useState, useEffect } from 'react';
 import '../Juego.css';
 import data from './data.json';
 
-function Juego({ nombreJugador, puntaje, setPuntaje, alTerminar, rondaActual,setRondaActual }) {
+function Juego({ nombreJugador, puntaje, setPuntaje, alTerminar, rondaActual, setRondaActual, rondaJuego }) {
     const [animalObjetivo, setAnimalObjetivo] = useState('');
     const [opciones, setOpciones] = useState([]);
     const [esCorrecto, setEsCorrecto] = useState(null);
     const [rondasTotales, setRondasTotales] = useState(5);
     const [puedeHacerClic, setPuedeHacerClic] = useState(true);
+    const [respuestasIncorrectas, setRespuestasIncorrectas] = useState(1);
 
     /*cargar datos iniciales, se utiliza para que el efecto se ejecute una sola vez después de que el componente se monte.*/
     useEffect(() => {
         obtenerOpcionesAleatorias();
+        //
+        setRondasTotales(rondaJuego);
+        console.log("Ronda:" + rondaJuego);
     }, []);
 
     const obtenerAnimalAleatorio = () => {
@@ -54,7 +58,7 @@ function Juego({ nombreJugador, puntaje, setPuntaje, alTerminar, rondaActual,set
             setPuedeHacerClic(true);
             obtenerOpcionesAleatorias();
         } else {
-            alTerminar(puntaje);
+            alTerminar(puntaje, rondaJuego);
         }
     };
 
@@ -63,6 +67,23 @@ function Juego({ nombreJugador, puntaje, setPuntaje, alTerminar, rondaActual,set
     useEffect(() => {
         obtenerOpcionesAleatorias();
     }, []);
+
+    const eliminarRespuestaIncorrecta = () => {
+        if (respuestasIncorrectas > 0) {
+            // Filtrar las opciones para mantener solo las respuestas incorrectas
+            const opcionesIncorrectas = opciones.filter(animal => animal.id !== animalObjetivo.id);
+
+            // Seleccionar una respuesta incorrecta al azar para eliminar
+            const indiceEliminar = Math.floor(Math.random() * 2);
+
+            // Actualizar las opciones eliminando una respuesta incorrecta
+            const nuevasOpciones = opciones.filter((_, index) => opciones[index].name !== opcionesIncorrectas[indiceEliminar].name);
+            setOpciones(nuevasOpciones);
+
+            // Actualizar el contador de respuestas incorrectas restantes
+            setRespuestasIncorrectas(respuestasIncorrectas - 1,);
+        }
+    };
 
     return (
         <div className="centrar-contenido2">
@@ -83,9 +104,17 @@ function Juego({ nombreJugador, puntaje, setPuntaje, alTerminar, rondaActual,set
                             {animal.name}
                         </button>
                     ))}
+
+                    <button
+                        className='botEliminarRespuesta'
+                        onClick={eliminarRespuestaIncorrecta}
+                        disabled={respuestasIncorrectas == 0 || esCorrecto !== null}
+                    >
+                        Eliminar respuesta incorrecta
+                    </button>
                 </div>
             </div>
-            
+
             {esCorrecto === true && <p>¡Correct!</p>}
             {esCorrecto === false && <p>¡Incorrect!</p>}
             <button className='botNext' onClick={siguienteRonda}>Next</button>

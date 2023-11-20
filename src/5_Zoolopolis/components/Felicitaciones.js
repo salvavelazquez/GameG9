@@ -16,13 +16,13 @@ function Felicitaciones({ nombreJugador, puntaje, users }) {
 
             {users.map((user) => (
                 
-                <>
+                <div key={user.id}>
                     <p>{user.name} your total score is: {user.score}</p>
                     
-                </>
+                </div>
             ))}
         </div>
-    )
+    );
 }
 
 export default Felicitaciones;
