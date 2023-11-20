@@ -3,12 +3,16 @@ import Juego from './components/Juego';
 
 
 import '../5_Zoolopolis/Zoolopolis.css';
+
 import Felicitaciones from './components/Felicitaciones.js';
 
 function Zoolopolis() {
     /************** */
     const [users, setUsers] = useState([]);
     const [turn,setTurn] = useState(1);
+    //ronda DEL JUEGO PARA AMBOS USER
+    const [numeroAleatorio, setNumeroAleatorio] = useState(Math.floor(Math.random() * (10 - 5 + 1)) + 5);
+
     /*************** */
     const [nombreJugador, setNombreJugador] = useState('');
     const [mostrarJuego, setMostrarJuego] = useState(false);
@@ -26,9 +30,9 @@ function Zoolopolis() {
         setUsers([...users, newUser]);
     };
 
-    const alTerminar = (puntaje) => {
+    const alTerminar = (puntaje,numeroAleatorio) => {
         setPuntaje(puntaje);
-        
+        setNumeroAleatorio(numeroAleatorio);
         users[turn-1].score = puntaje;
         setRondaActual(1);
         setTurn(turn+1);
@@ -64,6 +68,7 @@ function Zoolopolis() {
                     alTerminar={alTerminar}
                     rondaActual={rondaActual}
                     setRondaActual={setRondaActual}
+                    rondaJuego={numeroAleatorio}
                 />
             
             </div>

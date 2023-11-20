@@ -37,3 +37,6 @@ input{
     font-family: 'Open Sans', sans-serif;
     cursor: pointer;
 }
+.botEliminarRespuesta{
+    background-color: burlywood;
+}
