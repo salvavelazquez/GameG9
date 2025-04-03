@@ -57,7 +57,42 @@ class Escena1 extends Phaser.Scene {
 
     particles.startFollow(this.player);
 
+    // Controles táctiles 
     this.cursors = this.input.keyboard.createCursorKeys();
+    // Zona táctil de movimiento (izquierda del screen)
+this.touchControl = this.add.graphics()
+.fillStyle(0xffffff, 0.3)  // Color semitransparente
+.fillCircle(100, 500, 80)  // Radio más grande para mejor tacto
+.setInteractive(new Phaser.Geom.Circle(100, 500, 80), Phaser.Geom.Circle.Contains);
+
+// Movimiento con touch
+this.input.on('pointerdown', (pointer) => {
+const distance = Phaser.Math.Distance.Between(pointer.x, pointer.y, 100, 500);
+
+if (distance < 80) { 
+  // Movimiento en 4 direcciones basado en posición relativa al círculo
+  const angle = Phaser.Math.Angle.Between(100, 500, pointer.x, pointer.y);
+  
+  // Convertir ángulo a dirección
+  if (angle > -Math.PI/4 && angle < Math.PI/4) {
+    this.player.setVelocityX(250);  // Derecha
+  } else if (angle > Math.PI/4 && angle < 3*Math.PI/4) {
+    this.player.setVelocityY(250); // Arriba
+  } else if (angle > 3*Math.PI/4 || angle < -3*Math.PI/4) {
+    this.player.setVelocityX(-250); // Izquierda
+  } else {
+    this.player.setVelocityY(-250);  // Abajo
+  }
+} else { 
+  // Zona derecha (disparar)
+  this.shootBullet();
+}
+});
+
+this.input.on('pointerup', () => {
+this.player.setVelocityX(0);
+this.player.setVelocityY(0);
+});
 
     ///////////////////////////////////
     //ENEMY  
@@ -121,6 +156,12 @@ class Escena1 extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.enemys, this.enemyAttack, null, this);
   }
 
+
+  shootBullet() {
+    this.shootSound.play();
+    const bullet = this.bullets.create(this.player.x + 45, this.player.y, 'shoot');
+    bullet.setVelocityX(300);
+  }
 
   update() {
 
@@ -232,7 +273,7 @@ class Escena1 extends Phaser.Scene {
     this.time.delayedCall(2000, () => {
       this.portal = this.physics.add.sprite(700, 300, 'portal');
       this.portal.play('animacionPortal');
-      
+
       this.physics.add.overlap(this.player, this.portal, () => {
         this.scene.stop("Escena1");
         this.scene.start('Escena2', { cont: this.cont });
