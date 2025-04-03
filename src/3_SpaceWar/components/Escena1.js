@@ -60,38 +60,53 @@ class Escena1 extends Phaser.Scene {
     // Controles táctiles 
     this.cursors = this.input.keyboard.createCursorKeys();
     // Zona táctil de movimiento (izquierda del screen)
-this.touchControl = this.add.graphics()
-.fillStyle(0xffffff, 0.3)  // Color semitransparente
-.fillCircle(100, 500, 80)  // Radio más grande para mejor tacto
-.setInteractive(new Phaser.Geom.Circle(100, 500, 80), Phaser.Geom.Circle.Contains);
+// Variables para control táctil
+this.touchStartX = 0;
+this.touchStartY = 0;
+this.isTouching = false;
 
-// Movimiento con touch
+// Joystick visual (opcional)
+this.joystickBase = this.add.circle(100, 500, 60, 0xffffff, 0.2);
+this.joystickThumb = this.add.circle(100, 500, 30, 0xffffff, 0.5).setVisible(false);
+
+// Control táctil
 this.input.on('pointerdown', (pointer) => {
-const distance = Phaser.Math.Distance.Between(pointer.x, pointer.y, 100, 500);
+    this.touchStartX = pointer.x;
+    this.touchStartY = pointer.y;
+    this.isTouching = true;
+    
+    // Muestra el joystick (opcional)
+    this.joystickBase.setPosition(pointer.x, pointer.y);
+    this.joystickThumb.setPosition(pointer.x, pointer.y).setVisible(true);
+    
+    // Si el toque es en la zona derecha, dispara
+    if (pointer.x > this.cameras.main.width * 0.6) {
+        this.shootBullet();
+        this.isTouching = false;
+    }
+});
 
-if (distance < 80) { 
-  // Movimiento en 4 direcciones basado en posición relativa al círculo
-  const angle = Phaser.Math.Angle.Between(100, 500, pointer.x, pointer.y);
-  
-  // Convertir ángulo a dirección
-  if (angle > -Math.PI/4 && angle < Math.PI/4) {
-    this.player.setVelocityX(250);  // Derecha
-  } else if (angle > Math.PI/4 && angle < 3*Math.PI/4) {
-    this.player.setVelocityY(250); // Arriba
-  } else if (angle > 3*Math.PI/4 || angle < -3*Math.PI/4) {
-    this.player.setVelocityX(-250); // Izquierda
-  } else {
-    this.player.setVelocityY(-250);  // Abajo
-  }
-} else { 
-  // Zona derecha (disparar)
-  this.shootBullet();
-}
+this.input.on('pointermove', (pointer) => {
+    if (!this.isTouching) return;
+    
+    const deltaX = pointer.x - this.touchStartX;
+    const deltaY = pointer.y - this.touchStartY;
+    
+    // Actualiza posición del joystick visual (opcional)
+    this.joystickThumb.setPosition(
+        Phaser.Math.Clamp(pointer.x, this.touchStartX - 60, this.touchStartX + 60),
+        Phaser.Math.Clamp(pointer.y, this.touchStartY - 60, this.touchStartY + 60)
+    );
+    
+    // Mueve la nave proporcionalmente al arrastre
+    this.player.setVelocityX(deltaX * 3); // Ajusta el multiplicador para mayor sensibilidad
+    this.player.setVelocityY(deltaY * 3);
 });
 
 this.input.on('pointerup', () => {
-this.player.setVelocityX(0);
-this.player.setVelocityY(0);
+    this.isTouching = false;
+    this.player.setVelocity(0, 0);
+    this.joystickThumb.setVisible(false); // Oculta el joystick
 });
 
     ///////////////////////////////////
