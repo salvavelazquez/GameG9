@@ -83,10 +83,13 @@ const NavContainer = styled.nav`
     width: 13.5em;
     height: 4em;
     padding-left: 1em;
+    object-fit: contain;
 
     @media(max-width: 768px){
-        width: 110px;
-        height: 70px;
+        width: auto; /* Cambia a auto para mantener proporciones */
+        height: 50px; /* Solo define la altura, el ancho se ajustará automáticamente */
+        max-width: 180px; /* Establece un máximo para que no se salga del contenedor */
+        padding-left: 0.5em;
     }
 }
 

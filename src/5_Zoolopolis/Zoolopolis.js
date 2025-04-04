@@ -36,6 +36,7 @@ function Zoolopolis() {
         users[turn-1].score = puntaje;
         setRondaActual(1);
         setTurn(turn+1);
+        setNombreJugador('');
         if(turn <= 1){
             setMostrarJuego(false);
             setMostrarFelicitaciones(false);
@@ -52,9 +53,17 @@ function Zoolopolis() {
                 <input
                     type="text"
                     placeholder={`Player ${turn}`}
+                    value={nombreJugador}
                     onChange={(e) => setNombreJugador(e.target.value)}
                 />
-                <button className="button-init" onClick={() => manejarClickJugar(nombreJugador)}>Play</button>
+                <button 
+                    className="button-init" 
+                    onClick={() => manejarClickJugar(nombreJugador)}
+                    disabled={!nombreJugador.trim()} // Deshabilita si está vacío
+                    style={!nombreJugador.trim() ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+                    >
+                        Play
+                </button>
             </div>
         );
     } else if (mostrarJuego) {

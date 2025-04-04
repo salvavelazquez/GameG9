@@ -98,7 +98,7 @@ function Juego({ nombreJugador, puntaje, setPuntaje, alTerminar, rondaActual, se
             <h1>{nombreJugador}, ¿What is this animal?</h1>
             <p>Current round: {rondaActual}</p>
             <div className="imagen-y-botones">
-                <img src={animalObjetivo.url} alt={animalObjetivo.name} className="animal-img" />
+                <img src={animalObjetivo.url} alt={animalObjetivo.name} className="animal-img"  />
                 <div className="botones-container">
                     {opciones.map((animal) => (
                         <button
