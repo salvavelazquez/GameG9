@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import ListGroup from 'react-bootstrap/ListGroup';
+import { 
+  Button, 
+  Form, 
+  ListGroup, 
+  Container, 
+  Row, 
+  Col,
+  Badge,
+  Card
+} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './components/Style.css';
 
@@ -11,146 +18,244 @@ function NotesList() {
   const [finished, setFinished] = useState([]);
   const [inputText, setInputText] = useState('');
   const [inputTitle, setInputTitle] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('active');
 
-  const addNote = () => {
+  const addNote = (e) => {
+    e.preventDefault();
     if (inputText && inputTitle) {
       const newNote = {
-        id: notes.length + 1,
-        Title: inputTitle,
-        Description: inputText,
-        State: selectedStatus,
+        id: Date.now(),
+        title: inputTitle,
+        description: inputText,
+        createdAt: new Date().toLocaleString(),
+        status: 'todo'
       };
 
       setNotes([...notes, newNote]);
       setInputText('');
       setInputTitle('');
-      setSelectedStatus('active');
     }
   };
 
   const deleteNote = (id) => {
-    const updatedNotes = notes.filter((note) => note.id !== id);
-    setNotes(updatedNotes);
+    setNotes(notes.filter(note => note.id !== id));
+    setInProgress(inProgress.filter(note => note.id !== id));
+    setFinished(finished.filter(note => note.id !== id));
   };
 
-  const moveNoteToInProgress = (id) => {
-    const noteToMove = notes.find((note) => note.id === id);
-    setInProgress([...inProgress, noteToMove]);
-    deleteNote(id);
+  const moveToInProgress = (id) => {
+    const noteToMove = notes.find(note => note.id === id) || 
+                      finished.find(note => note.id === id);
+    
+    if (noteToMove) {
+      setInProgress([...inProgress, {...noteToMove, status: 'in-progress'}]);
+      
+      if (notes.some(note => note.id === id)) {
+        setNotes(notes.filter(note => note.id !== id));
+      } else {
+        setFinished(finished.filter(note => note.id !== id));
+      }
+    }
   };
 
-  const moveNoteToFinished = (id) => {
-    const noteToMove = notes.find((note) => note.id === id);
-    setFinished([...finished, noteToMove]);
-    deleteNote(id);
+  const moveToFinished = (id) => {
+    const noteToMove = notes.find(note => note.id === id) || 
+                      inProgress.find(note => note.id === id);
+    
+    if (noteToMove) {
+      setFinished([...finished, {...noteToMove, status: 'finished'}]);
+      
+      if (notes.some(note => note.id === id)) {
+        setNotes(notes.filter(note => note.id !== id));
+      } else {
+        setInProgress(inProgress.filter(note => note.id !== id));
+      }
+    }
   };
 
-  const listStyle = {
-    textAlign: 'left',
-    backgroundColor: '#f5f5f5',
+  const moveBackToTodo = (id) => {
+    const noteToMove = inProgress.find(note => note.id === id) || 
+                      finished.find(note => note.id === id);
+    
+    if (noteToMove) {
+      setNotes([...notes, {...noteToMove, status: 'todo'}]);
+      
+      if (inProgress.some(note => note.id === id)) {
+        setInProgress(inProgress.filter(note => note.id !== id));
+      } else {
+        setFinished(finished.filter(note => note.id !== id));
+      }
+    }
   };
 
   return (
-    <div className='text-center colorBackground'>
-      <h1 className='whiteText'>Notes List</h1>
-      <Form>
-        <div className='d-flex justify-content-between'>
-          {/* Input AddNote Title */}
-          <Form.Group className='mr-2 flex-grow-1'>
-            <Form.Control
-              type='text'
-              placeholder='Enter note title'
-              value={inputTitle}
-              onChange={(e) => setInputTitle(e.target.value)}
-            />
-          </Form.Group>
-          {/* Input AddNote Description */}
-          <Form.Group className='mr-2 flex-grow-1'>
-            <Form.Control
-              type='text'
-              placeholder='Enter your note description'
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-            />
-          </Form.Group>
-          {/* Dropdown list */}
-          <Form.Group className='mr-2' style={{ width: '200px' }}>
-            <Form.Control
-              as='select'
-              value={selectedStatus}
-              onChange={(e) => setSelectedStatus(e.target.value)}
-            >
-              <option value='active'>Active</option>
-              <option value='desactive'>Desactive</option>
-            </Form.Control>
-          </Form.Group>
-        </div>
+    <Container fluid className="notes-app">
+      <Row className="justify-content-center">
+        <Col lg={8} xl={6}>
+          <Card className="app-card">
+            <Card.Header className="app-header">
+              <h1 className="app-title">Task Manager 📝</h1>
+              <p className="app-subtitle">Organize your work efficiently</p>
+            </Card.Header>
+            
+            <Card.Body>
+              <Form onSubmit={addNote} className="note-form">
+                <Row className="mb-3">
+                  <Col md={5}>
+                    <Form.Control
+                      type="text"
+                      placeholder="Note title"
+                      value={inputTitle}
+                      onChange={(e) => setInputTitle(e.target.value)}
+                      className="form-input"
+                      required
+                    />
+                  </Col>
+                  <Col md={5}>
+                    <Form.Control
+                      type="text"
+                      placeholder="Note description"
+                      value={inputText}
+                      onChange={(e) => setInputText(e.target.value)}
+                      className="form-input"
+                      required
+                    />
+                  </Col>
+                  <Col md={2}>
+                    <Button 
+                      variant="primary" 
+                      type="submit" 
+                      className="w-100 add-btn"
+                    >
+                      Add
+                    </Button>
+                  </Col>
+                </Row>
+              </Form>
 
-        <Button variant='success' onClick={addNote}>
-          Add Note
-        </Button>
-      </Form>
-      <ListGroup style={listStyle}>
-        <h2 className='init'>Started List</h2>
-        {notes.map((note) => (
-          <ListGroup.Item key={note.id}>
-            <span style={{ marginRight: '30px' }}>{note.Title}</span>
-            <span style={{ marginRight: '30px' }}>{note.Description}</span>
-            <span style={{ marginRight: '30px' }}>{note.State}</span>
-            <Button
-              variant='danger'
-              className='float-right'
-              onClick={() => deleteNote(note.id)}
-            >
-              Delete
-            </Button>
-            <Button
-              variant='primary'
-              className='float-right mr-2'
-              onClick={() => moveNoteToInProgress(note.id)}
-            >
-              Move to In Progress
-            </Button>
-            <Button
-              variant='success'
-              className='float-right mr-2'
-              onClick={() => moveNoteToFinished(note.id)}
-            >
-              Move to Finished
-            </Button>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
+              <Row className="mt-4">
+                {/* To Do Column */}
+                <Col md={4}>
+                  <div className="status-column">
+                    <h2 className="status-title init">
+                      <Badge bg="warning" className="me-2">To Do</Badge>
+                      <span className="count-badge">{notes.length}</span>
+                    </h2>
+                    <ListGroup className="notes-list">
+                      {notes.map((note) => (
+                        <ListGroup.Item key={note.id} className="note-item todo-note">
+                          <div className="note-header">
+                            <h5 className="note-title">{note.title}</h5>
+                            <small className="note-date">{note.createdAt}</small>
+                          </div>
+                          <p className="note-desc">{note.description}</p>
+                          <div className="note-actions">
+                            <Button 
+                              size="sm" 
+                              variant="outline-primary"
+                              onClick={() => moveToInProgress(note.id)}
+                              className="action-btn"
+                            >
+                              <i className="bi bi-arrow-right"></i> Progress
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline-danger"
+                              onClick={() => deleteNote(note.id)}
+                              className="action-btn"
+                            >
+                              <i className="bi bi-trash"></i>
+                            </Button>
+                          </div>
+                        </ListGroup.Item>
+                      ))}
+                    </ListGroup>
+                  </div>
+                </Col>
 
-      <div className='mt-3'>
-        <h2 className='process'>In Progress</h2>
-        <ListGroup style={listStyle}>
-          {inProgress.map((note) => (
-            <ListGroup.Item key={note.id}>
-              <span style={{ marginRight: '30px' }}>{note.Title}</span>
-              <span style={{ marginRight: '30px' }}>{note.Description}</span>
-              <span style={{ marginRight: '30px' }}>{note.State}</span>
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-      </div>
+                {/* In Progress Column */}
+                <Col md={4}>
+                  <div className="status-column">
+                    <h2 className="status-title process">
+                      <Badge bg="info" className="me-2">In Progress</Badge>
+                      <span className="count-badge">{inProgress.length}</span>
+                    </h2>
+                    <ListGroup className="notes-list">
+                      {inProgress.map((note) => (
+                        <ListGroup.Item key={note.id} className="note-item progress-note">
+                          <div className="note-header">
+                            <h5 className="note-title">{note.title}</h5>
+                            <small className="note-date">{note.createdAt}</small>
+                          </div>
+                          <p className="note-desc">{note.description}</p>
+                          <div className="note-actions">
+                            <Button 
+                              size="sm" 
+                              variant="outline-success"
+                              onClick={() => moveToFinished(note.id)}
+                              className="action-btn"
+                            >
+                              <i className="bi bi-check-circle"></i> Complete
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline-warning"
+                              onClick={() => moveBackToTodo(note.id)}
+                              className="action-btn"
+                            >
+                              <i className="bi bi-arrow-left"></i> Back
+                            </Button>
+                          </div>
+                        </ListGroup.Item>
+                      ))}
+                    </ListGroup>
+                  </div>
+                </Col>
 
-      <div className='mt-3'>
-        <h2 className='finish'>Finished</h2>
-        <ListGroup style={listStyle}>
-          {finished.map((note) => (
-            <ListGroup.Item key={note.id}>
-              <span style={{ marginRight: '30px' }}>{note.Title}</span>
-              <span style={{ marginRight: '30px' }}>{note.Description}</span>
-              <span style={{ marginRight: '30px' }}>{note.State}</span>
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-      </div>
-    </div>
+                {/* Finished Column */}
+                <Col md={4}>
+                  <div className="status-column">
+                    <h2 className="status-title finish">
+                      <Badge bg="success" className="me-2">Done</Badge>
+                      <span className="count-badge">{finished.length}</span>
+                    </h2>
+                    <ListGroup className="notes-list">
+                      {finished.map((note) => (
+                        <ListGroup.Item key={note.id} className="note-item done-note">
+                          <div className="note-header">
+                            <h5 className="note-title">{note.title}</h5>
+                            <small className="note-date">{note.createdAt}</small>
+                          </div>
+                          <p className="note-desc">{note.description}</p>
+                          <div className="note-actions">
+                            <Button 
+                              size="sm" 
+                              variant="outline-info"
+                              onClick={() => moveToInProgress(note.id)}
+                              className="action-btn"
+                            >
+                              <i className="bi bi-arrow-left"></i> Reopen
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline-danger"
+                              onClick={() => deleteNote(note.id)}
+                              className="action-btn"
+                            >
+                              <i className="bi bi-trash"></i>
+                            </Button>
+                          </div>
+                        </ListGroup.Item>
+                      ))}
+                    </ListGroup>
+                  </div>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
 export default NotesList;
-
