@@ -1,23 +1,205 @@
-#gg{
-        /*background-color: brown;*/
-        position: relative;
-        background-image: url("/public/img/22.jpg");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        top: -50px;
-        height: 100%;
-        
+/* Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
 }
 
-#ff{    
-        padding: '20px';
+.game-theme {
+    background-image: url("/public/img/22.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    padding-top: 2rem;
 }
-.text-secondary{
-    background-color: aqua;
-    padding-left: 30%;
+
+/* Main Content */
+.price-comparator-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    background-color: rgba(20, 20, 20, 0.60); /* Fondo oscuro semi-transparente */
+    backdrop-filter: blur(8px); /* Efecto de desenfoque para mejor legibilidad */
+    border-radius: 12px; /* Bordes redondeados */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Sombra suave */
+    border: 1px solid rgba(0, 180, 216, 0.2); /* Borde sutil */
 }
-.text-primary{
-    background-color: aqua;
-    padding-left: 30%;
+
+.tool-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.main-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    color: #00b4d8;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.tool-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Form Styles */
+.comparator-card {
+    background-color: rgba(30, 30, 30, 0.9);
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid #0096c7;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.product-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.game-input, .game-select {
+    padding: 0.8rem;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background-color: #222;
+    color: white;
+    font-size: 1rem;
+}
+
+.game-input:focus, .game-select:focus {
+    outline: none;
+    border-color: #00b4d8;
+    box-shadow: 0 0 0 2px rgba(0, 180, 216, 0.3);
+}
+
+.game-button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: flex-end;
+}
+
+.game-button.primary {
+    background-color: #0096c7;
+    color: white;
+}
+
+.game-button.primary:hover {
+    background-color: #0077b6;
+    transform: translateY(-2px);
+}
+
+/* Results Tabs */
+.results-tabs {
+    display: flex;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #444;
+}
+
+.tab-button {
+    padding: 0.8rem 1.5rem;
+    background: none;
+    border: none;
+    color: #e0e0e0;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+}
+
+.tab-button.active {
+    color: #00b4d8;
+}
+
+.tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: #00b4d8;
+}
+
+/* Results Table */
+.results-container {
+    margin-top: 1rem;
+}
+
+.results-container h2 {
+    color: #00b4d8;
+    margin-bottom: 1rem;
+}
+
+.game-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.game-table th, .game-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #444;
+}
+
+.game-table th {
+    background-color: rgba(0, 150, 199, 0.2);
+    color: #00b4d8;
+}
+
+.game-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.game-table tr.best-price {
+    background-color: rgba(0, 180, 216, 0.1);
+}
+
+.game-table tr.best-price:hover {
+    background-color: rgba(0, 180, 216, 0.2);
+}
+
+.no-results {
+    text-align: center;
+    padding: 2rem;
+    color: #888;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .product-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .game-table {
+        display: block;
+        overflow-x: auto;
+    }
 }

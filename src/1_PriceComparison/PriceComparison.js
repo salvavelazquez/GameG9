@@ -4,41 +4,26 @@ import Footer from '../components/Footer';
 
 function PriceComparison() {
     const [products, setProducts] = useState([]);
+    const [activeTab, setActiveTab] = useState('all');
 
-    const backgroundStyle = {
-    
-        minHeight: '100vh', // Esto asegura que la imagen ocupe al menos el 100% del alto de la pantalla
-        padding: '20px', // Ajusta según sea necesario
-    };
-
-    const guardarProducto = () => {
+    const guardarProducto = (e) => {
+        e.preventDefault();
         const nombre = document.getElementById("nombre").value;
         const precio = parseFloat(document.getElementById("precio").value);
         const comercio = document.getElementById("comercio").value;
 
         if (nombre && !isNaN(precio) && comercio) {
-            const objProducto = { nombre, precio, comercio };
+            const objProducto = { 
+                nombre, 
+                precio, 
+                comercio,
+                date: new Date().toLocaleDateString()
+            };
             setProducts([...products, objProducto]);
             document.getElementById("formProducto").reset();
-            alert("Producto guardado exitosamente.");
         } else {
             alert("Por favor, completa todos los campos correctamente.");
         }
-    };
-
-    const listarProductos = () => {
-        const listaCompleta = document.getElementById("listaProductos");
-        listaCompleta.innerHTML = "";
-
-        products.forEach((producto) => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-            <td>${producto.nombre}</td>
-            <td>${producto.precio}</td>
-            <td>${producto.comercio}</td>
-        `;
-            listaCompleta.appendChild(row);
-        });
     };
 
     const encontrarProductosMasBaratos = () => {
@@ -47,86 +32,144 @@ function PriceComparison() {
             const { nombre, precio, comercio } = producto;
 
             if (!productosUnicos[nombre] || precio < productosUnicos[nombre].precio) {
-                productosUnicos[nombre] = { nombre, precio, comercio };
+                productosUnicos[nombre] = { nombre, precio, comercio, date: producto.date };
             }
         });
 
-        const resultado = Object.values(productosUnicos);
-        return resultado;
+        return Object.values(productosUnicos);
     };
 
-    const listarProductosBaratos = () => {
-        const listaCompleta = document.getElementById("productosBaratos");
-        listaCompleta.innerHTML = "";
-
-        const productosMasBaratos = encontrarProductosMasBaratos();
-        productosMasBaratos.forEach((producto) => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-            <td>${producto.nombre}</td>
-            <td>${producto.precio}</td>
-            <td>${producto.comercio}</td>
-        `;
-            listaCompleta.appendChild(row);
-        });
-    };
+    const productosMasBaratos = encontrarProductosMasBaratos();
 
     return (
-        <div>
-        <body id="gg">
-            <div id="ff" className="container mt-5" style={backgroundStyle}>
-                <form id="formProducto" className="mb-5">
-                    <h1 className="text-primary">Comparador de precios</h1>
-                    <br />
-                    <input type="text" id="nombre" className="me-2" placeholder="Nombre del producto" />
-                    <input type="number" id="precio" min="0" step="0.01" className="me-2" placeholder="Precio del producto" />
-                    <select name="comercio" id="comercio" className="btn btn-success">
-                        <option value="">Nombre del comercio</option>
-                        <option value="Comodin">Comodín</option>
-                        <option value="Carrefour">Carrefour</option>
-                        <option value="Vea">Vea</option>
-                        <option value="Chango Mas">Chango Más</option>
-                    </select>
-                    <div className="container mt-2" >
-                        <button type="button" className="btn btn-primary me-2 mt-2" onClick={guardarProducto}>Guardar Producto</button>
-                        <button type="button" className="btn btn-primary me-2 mt-2" onClick={listarProductos}>Listar Productos</button>
-                        <button type="button" className="btn btn-primary me-2 mt-2" onClick={listarProductosBaratos}>Productos Más Baratos</button>
-                    </div>
-                    <div id="mensajes">
-                        <br />
-                        <h2 className="text-secondary" >Listado de Productos</h2>
-                        <table id="tablaProductos" className="table">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Precio</th>
-                                    <th>Comercio</th>
-                                </tr>
-                            </thead>
-                            <tbody id="listaProductos"></tbody>
-                        </table>
-                        <br />
-                        <div >
-                            <h2 className="text-secondary">Productos con Menor Precio</h2>
-                            <table id="tablaProductos" className="table">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Precio</th>
-                                        <th>Comercio</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="productosBaratos"></tbody>
-                            </table>
+        <div className="game-theme">
+            <main className="price-comparator-container">
+                <div className="tool-header">
+                    <h1 className="main-title">PRICE COMPARISON</h1>
+                    <p>Choose the best places to buy. Help yourself for better control.</p>
+                </div>
+                
+                <div className="comparator-card">
+                    <form id="formProducto" className="product-form">
+                        <div className="form-group">
+                            <input 
+                                type="text" 
+                                id="nombre" 
+                                placeholder="Product name" 
+                                className="game-input"
+                            />
                         </div>
+                        
+                        <div className="form-group">
+                            <input 
+                                type="number" 
+                                id="precio" 
+                                min="0" 
+                                step="0.01" 
+                                placeholder="Price" 
+                                className="game-input"
+                            />
+                        </div>
+                        
+                        <div className="form-group">
+                            <select id="comercio" className="game-select">
+                                <option value="">Select store</option>
+                                <option value="Comodin">Comodín</option>
+                                <option value="Carrefour">Carrefour</option>
+                                <option value="Vea">Vea</option>
+                                <option value="Chango Mas">Chango Más</option>
+                            </select>
+                        </div>
+                        
+                        <button 
+                            type="button" 
+                            className="game-button primary" 
+                            onClick={guardarProducto}
+                        >
+                            Add Product
+                        </button>
+                    </form>
+                    
+                    <div className="results-tabs">
+                        <button 
+                            className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('all')}
+                        >
+                            All Products
+                        </button>
+                        <button 
+                            className={`tab-button ${activeTab === 'cheapest' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('cheapest')}
+                        >
+                            Best Prices
+                        </button>
                     </div>
-
-                </form>
-            </div>
+                    
+                    <div className="results-container">
+                        {activeTab === 'all' ? (
+                            <>
+                                <h2>All Products ({products.length})</h2>
+                                {products.length > 0 ? (
+                                    <table className="game-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Price</th>
+                                                <th>Store</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {products.map((producto, index) => (
+                                                <tr key={index}>
+                                                    <td>{producto.nombre}</td>
+                                                    <td>${producto.precio.toFixed(2)}</td>
+                                                    <td>{producto.comercio}</td>
+                                                    <td>{producto.date}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <p className="no-results">No products added yet.</p>
+                                )}
+                            </>
+                        ) : (
+                            <>
+                                <h2>Best Prices ({productosMasBaratos.length})</h2>
+                                {productosMasBaratos.length > 0 ? (
+                                    <table className="game-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Best Price</th>
+                                                <th>Store</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {productosMasBaratos.map((producto, index) => (
+                                                <tr key={index} className="best-price">
+                                                    <td>{producto.nombre}</td>
+                                                    <td>${producto.precio.toFixed(2)}</td>
+                                                    <td>{producto.comercio}</td>
+                                                    <td>{producto.date}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <p className="no-results">No products to compare.</p>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </div>
+            </main>
             
-        </body>
-        <Footer />
+            <Footer />
         </div>
     );
 }
+
 export default PriceComparison;
