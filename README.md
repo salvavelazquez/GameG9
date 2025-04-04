@@ -1,4 +1,4 @@
-# 🚀 Portal de Juegos y Herramientas - Proyecto Final FPW
+# 🚀 Portal de Juegos y Herramientas - Proyecto Final
 ![Banner del Proyecto](https://github.com/salvavelazquez/GameG9/blob/main/portada.PNG)
 ## 📌 Descripción del Proyecto
 
@@ -13,7 +13,7 @@ Un portal web interactivo desarrollado como proyecto final para la materia **Fun
 ## 🕹️ Catálogo de Juegos
 
 ### 1. 🚀 Space War - Defensor Galáctico
-![Space War](https://github.com/salvavelazquez/GameG9/blob/main/SpaceWar.PNG)
+![Space War](https://github.com/salvavelazquez/GameG9/blob/main/Space_WarN1.PNG)
 
 **⭐ Concepto:**  
 Únete a Zorro, el héroe intergaláctico, en su misión para combatir a los alienígenas corruptos que amenazan la paz universal.
