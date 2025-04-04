@@ -49,6 +49,7 @@ main{
 
  /* Media query para pantallas más pequeñas */
 @media (max-width: 1115px) {
+    
     .contentContainer {
         flex-direction: column; /* Cambia a diseño de columna en pantallas más pequeñas */
     }
@@ -57,10 +58,17 @@ main{
         
         width: 100%;
     }
-     .toolsSection {
-        
-        width: 100%; /* Ambas secciones ocupan todo el ancho en pantallas más pequeñas */
+    
+    .toolsSection {
+        width: 100%; 
     }
+
+    .cardContainer {
+        width: 100%; 
+        padding-left: 17%;
+    }
+    
+
 }
 
 
