@@ -8,6 +8,7 @@ class Escena3 extends Phaser.Scene {
     this.scoreText = "";
     this.score = 0;
     this.timeLeft = 30;
+    this.playerSpeed = 160;
   }
 
   init(data) {
@@ -82,6 +83,111 @@ class Escena3 extends Phaser.Scene {
 
     this.physics.add.collider(this.player, this.platforms);
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.initTouchControls();
+
+        // Configuración del área de juego táctil
+
+        this.joystick = {
+            base: this.add.circle(100, 500, 60, 0xffffff, 0.2).setVisible(false),
+            thumb: this.add.circle(100, 500, 30, 0xffffff, 0.5).setVisible(false),
+            active: false,
+            pointer: null,
+            radius: 60
+        };
+
+        // Botón de salto
+        this.jumpButton = this.add.circle(
+            this.cameras.main.width - 80,
+            this.cameras.main.height - 100,
+            50,
+            0x00ff00,
+            0.5
+        ).setInteractive();
+
+        this.jumpText = this.add.text(
+            this.jumpButton.x,
+            this.jumpButton.y,
+            'SALTO',
+            { fontSize: '18px', fill: '#ffffff' }
+        ).setOrigin(0.5);
+
+        // Eventos táctiles mejorados
+        this.input.on('pointerdown', (pointer) => {
+            // Solo activar en la zona izquierda de la pantalla
+            if (pointer.x < this.cameras.main.width / 2) {
+                this.joystick.active = true;
+                this.joystick.pointer = pointer;
+                this.joystick.base.setPosition(pointer.x, pointer.y).setVisible(true);
+                this.joystick.thumb.setPosition(pointer.x, pointer.y).setVisible(true);
+            }
+        });
+
+        this.input.on('pointermove', (pointer) => {
+            if (!this.joystick.active || this.joystick.pointer !== pointer) return;
+
+            // Calcular distancia y ángulo del toque
+            const dx = pointer.x - this.joystick.base.x;
+            const dy = pointer.y - this.joystick.base.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx);
+
+            // Limitar el thumb al radio del joystick
+            const radius = Math.min(distance, this.joystick.radius);
+            this.joystick.thumb.setPosition(
+                this.joystick.base.x + Math.cos(angle) * radius,
+                this.joystick.base.y + Math.sin(angle) * radius
+            );
+
+            // Mover al jugador basado en la posición del joystick
+            if (distance > 10) { // Zona muerta pequeña
+                const direction = dx > 0 ? 1 : -1;
+                this.player.setVelocityX(direction * this.playerSpeed);
+
+                // Animaciones
+                if (dx > 0) {
+                    this.player.anims.play('right', true);
+                } else {
+                    this.player.anims.play('left', true);
+                }
+            } else {
+                this.player.setVelocityX(0);
+                this.player.anims.play('turn', true);
+            }
+        });
+
+        this.input.on('pointerup', (pointer) => {
+            if (this.joystick.pointer === pointer) {
+                this.joystick.active = false;
+                this.joystick.pointer = null;
+                this.player.setVelocityX(0);
+                this.player.anims.play('turn', true);
+                this.joystick.base.setVisible(false);
+                this.joystick.thumb.setVisible(false);
+            }
+        });
+
+        // Configurar el botón de salto
+        this.jumpButton.on('pointerdown', () => {
+            if (this.player.body.touching.down) {
+                this.player.setVelocityY(-330);
+                // Pequeña vibración para feedback táctil
+                if (this.sys.game.device.input.touch) {
+                    navigator.vibrate && navigator.vibrate(50);
+                }
+            }
+        });
+
+        // Ajustar controles al tamaño de pantalla
+        this.scale.on('resize', (gameSize) => {
+            const scale = Math.min(gameSize.width / 800, gameSize.height / 600);
+            this.jumpButton.setPosition(
+                gameSize.width - 80 * scale,
+                gameSize.height - 100 * scale
+            );
+            // this.jumpButton.setRadius(50 * scale);
+            this.jumpText.setPosition(this.jumpButton.x, this.jumpButton.y);
+            this.jumpText.setScale(scale);
+        });
 
     this.stars = this.physics.add.group({
       key: 'star',
@@ -108,6 +214,52 @@ class Escena3 extends Phaser.Scene {
     this.timeText = this.add.text(600, 16, 'Tiempo: 60', { fontSize: '32px', fill: '#FFFF' });
   }
 
+  initTouchControls() {
+    // Destruir controles anteriores si existen
+    if (this.joystick) {
+        this.joystick.base.destroy();
+        this.joystick.thumb.destroy();
+    }
+    if (this.jumpButton) this.jumpButton.destroy();
+    if (this.jumpText) this.jumpText.destroy();
+
+    // Crear nuevos controles
+    this.joystick = {
+        base: this.add.circle(100, 500, 60, 0xffffff, 0.2).setVisible(false),
+        thumb: this.add.circle(100, 500, 30, 0xffffff, 0.5).setVisible(false),
+        active: false,
+        pointer: null,
+        radius: 60
+    };
+
+    this.jumpButton = this.add.circle(
+        this.cameras.main.width - 80,
+        this.cameras.main.height - 100,
+        50,
+        0x00ff00,
+        0.5
+    ).setInteractive();
+
+    this.jumpText = this.add.text(
+        this.jumpButton.x,
+        this.jumpButton.y,
+        'SALTO',
+        { fontSize: '18px', fill: '#ffffff' }
+    ).setOrigin(0.5);
+
+    // ... resto de la configuración de controles ...
+}
+
+handleJump() {
+    if (this.player.body.touching.down && !this.jumpCooldown) {
+        this.player.setVelocityY(-330);
+        this.jumpCooldown = true;
+        this.time.delayedCall(500, () => {
+            this.jumpCooldown = false;
+        });
+    }
+}
+
   update() {
     if (this.score > 700) {
       this.physics.pause();
@@ -117,12 +269,12 @@ class Escena3 extends Phaser.Scene {
     }
 
     if (this.cursors.left.isDown) {
-      this.player.setVelocityX(-160);
+      this.player.setVelocityX(-this.playerSpeed);
       this.player.anims.play('left', true);
     } else if (this.cursors.right.isDown) {
-      this.player.setVelocityX(160);
+      this.player.setVelocityX(this.playerSpeed);
       this.player.anims.play('right', true);
-    } else {
+    } else if (!this.joystick.active) {
       this.player.setVelocityX(0);
       this.player.anims.play('turn', true);
     }
