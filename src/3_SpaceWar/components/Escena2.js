@@ -82,6 +82,54 @@ class Escena2 extends Phaser.Scene {
     });
 
     this.cursors = this.input.keyboard.createCursorKeys();
+    // Variables para control táctil
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.isTouching = false;
+    
+        // Joystick visual (opcional)
+        this.joystickBase = this.add.circle(100, 500, 60, 0xffffff, 0.2);
+        this.joystickThumb = this.add.circle(100, 500, 30, 0xffffff, 0.5).setVisible(false);
+    
+        // Control táctil
+        this.input.on('pointerdown', (pointer) => {
+          this.touchStartX = pointer.x;
+          this.touchStartY = pointer.y;
+          this.isTouching = true;
+    
+          // Muestra el joystick (opcional)
+          this.joystickBase.setPosition(pointer.x, pointer.y);
+          this.joystickThumb.setPosition(pointer.x, pointer.y).setVisible(true);
+    
+          // Si el toque es en la zona derecha, dispara
+          if (pointer.x > this.cameras.main.width * 0.6) {
+            this.shootBullet();
+            this.isTouching = false;
+          }
+        });
+    
+        this.input.on('pointermove', (pointer) => {
+          if (!this.isTouching) return;
+    
+          const deltaX = pointer.x - this.touchStartX;
+          const deltaY = pointer.y - this.touchStartY;
+    
+          // Actualiza posición del joystick visual (opcional)
+          this.joystickThumb.setPosition(
+            Phaser.Math.Clamp(pointer.x, this.touchStartX - 60, this.touchStartX + 60),
+            Phaser.Math.Clamp(pointer.y, this.touchStartY - 60, this.touchStartY + 60)
+          );
+    
+          // Mueve la nave proporcionalmente al arrastre
+          this.player.setVelocityX(deltaX * 3); // Ajusta el multiplicador para mayor sensibilidad
+          this.player.setVelocityY(deltaY * 3);
+        });
+    
+        this.input.on('pointerup', () => {
+          this.isTouching = false;
+          this.player.setVelocity(0, 0);
+          this.joystickThumb.setVisible(false); // Oculta el joystick
+        });
 
     //Particulas 
     this.particles = this.add.particles(-40, 0, 'red', {
@@ -161,6 +209,13 @@ class Escena2 extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.bossbullets, this.bossAttack, null, this);
 
   }
+
+  shootBullet() {
+    this.shootSound.play();
+    const bullet = this.bullets.create(this.player.x + 45, this.player.y, 'shoot');
+    bullet.setVelocityX(300);
+  }
+
   update() {
     // Mueve el fondo en la dirección deseada
     this.fondo.tilePositionX += 1; // Ajusta la velocidad de desplazamiento horizontal
