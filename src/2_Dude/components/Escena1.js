@@ -150,7 +150,7 @@ class Escena1 extends Phaser.Scene {
         // Configurar el botón de salto
         this.jumpButton.on('pointerdown', () => {
             if (this.player.body.touching.down) {
-                this.player.setVelocityY(-330);
+                this.player.setVelocityY(-400);
                 // Pequeña vibración para feedback táctil
                 if (this.sys.game.device.input.touch) {
                     navigator.vibrate && navigator.vibrate(50);
