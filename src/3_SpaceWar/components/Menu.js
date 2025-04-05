@@ -28,6 +28,45 @@ class Menu extends Phaser.Scene {
 
     });
 
+    // Botón de pantalla completa
+    const fullscreenButton = this.add.text(
+      720, // Posición X 
+      520,  // Posición Y
+      '⛶', // Símbolo de pantalla completa
+      {
+        fontSize: '32px',
+        fill: '#fff',
+        backgroundColor: '#00000080',
+        padding: { x: 10, y: 5 }
+      }
+    ).setInteractive();
+
+    fullscreenButton.on('pointerdown', () => {
+      if (this.scale.isFullscreen) {
+        this.scale.exitFullscreen();
+      } else {
+        this.scale.startFullscreen();
+      }
+    });
+
+    // Cambiar el estilo al pasar el mouse
+    fullscreenButton.on('pointerover', () => {
+      fullscreenButton.setStyle({ fill: '#ff0' });
+    });
+
+    fullscreenButton.on('pointerout', () => {
+      fullscreenButton.setStyle({ fill: '#fff' });
+    });
+
+    // Escuchar cambios en el estado de pantalla completa
+    this.scale.on('enterfullscreen', () => {
+      fullscreenButton.setText('⛶'); 
+    });
+
+    this.scale.on('leavefullscreen', () => {
+      fullscreenButton.setText('⛶'); 
+    });
+
   }
 
 }
