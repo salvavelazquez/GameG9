@@ -162,14 +162,20 @@ a {
     position: absolute;
     margin-left: auto;
     margin-right: auto;
-    top: 230%;
+    top: 50%;
     left: 0;
     right: 0;
     text-align: center;
+    transform: none;
     a{
         font-size: 2rem;
         margin-top: 1rem;
         color: #0cc6ff;
+       &:hover, &:active, &:focus {
+      background-color: transparent !important;
+      color: #0cc6ff;
+    }
+    }
         
     }
 
@@ -221,8 +227,13 @@ const DropdownContainer = styled.div`
     }
     
     @media(max-width: 1115px){
-        left: 44%;
+        left: 25%;
         top: 35%;
+    }
+    @media(max-width: 992px){
+        transform: translateY(50%);
+        
+        
     }
 `;
 
@@ -243,8 +254,13 @@ const DropdownContainer2 = styled.div`
     }
     
     @media(max-width: 1115px){
-        left: 36%;
+        left: 15%;
         top: 23%;
+    }
+        @media(max-width: 992px){
+        transform: translateY(50%);
+        
+        
     }
 `;
 
